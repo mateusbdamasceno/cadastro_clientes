@@ -6,17 +6,17 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-import br.com.bean.Cliente;
-import br.com.dao.ClienteDAO;
+import br.com.bean.Client;
+import br.com.dao.ClientDAO;
 import br.com.db.ConnectionFactory;
 
-public class ClienteDAO {
+public class ClientDAO {
 	
 	private ConnectionFactory con;
 
-	public List<Cliente> getClientes() {
+	public List<Client> getClients() {
 		PreparedStatement stmt = null;
-		List<Cliente> clientes = new ArrayList<Cliente>();
+		List<Client> clients = new ArrayList<Client>();
 		
 		try {
 			String sql = "select * from clientes ";
@@ -26,12 +26,12 @@ public class ClienteDAO {
 
 		    
 		    while (rs.next()) {
-		    	Cliente cliente = new Cliente();
-		    	cliente.setNome(rs.getString("NOME"));
+		    	Client cliente = new Client();
+		    	cliente.setName(rs.getString("NAME"));
 		    	cliente.setCpf(rs.getString("CPF"));
-		    	cliente.setEndereco(rs.getString("ENDERECO"));
+		    	cliente.setAddress(rs.getString("ADDRESS"));
 		    	
-		    	clientes.add(cliente);
+		    	clients.add(cliente);
 		    }
 		    rs.close();
 	        stmt.close();
@@ -40,18 +40,18 @@ public class ClienteDAO {
 		}
 		
 		
-        return clientes;
+        return clients;
 	}
 
-	public Cliente insertCliente(Cliente cliente) {
+	public Client insertClient(Client cliente) {
 		PreparedStatement stmt = null;
 		
  		try {
- 			String sql = "insert into clientes(nome, cpf, endereco)values(?,?,?)";
+ 			String sql = "insert into clientes(name, cpf, address)values(?,?,?)";
  			stmt = con.createConnectonDb().prepareStatement(sql);
- 	 		stmt.setString(1, cliente.getNome());
+ 	 		stmt.setString(1, cliente.getName());
  	 		stmt.setString(2, cliente.getCpf());
-			stmt.setString(3, cliente.getEndereco());
+			stmt.setString(3, cliente.getAddress());
 			stmt.execute();
 	 		stmt.close();
 		} catch (SQLException e) {
@@ -64,7 +64,7 @@ public class ClienteDAO {
 		return null;
 	}
 
-	public void deleteCliente(Integer clientid) {
+	public void deleteClient(Integer clientid) {
 		PreparedStatement stmt = null;
 		try {
 			String sql = "DELETE FROM  clientes WHERE id= ?";
@@ -80,15 +80,15 @@ public class ClienteDAO {
 		
 	}
 
-	public Cliente updateCliente(Cliente cliente) {
+	public Client updateClient(Client cliente) {
 		PreparedStatement stmt = null;
 		
 		try {
-			String sql = "update clientes set nome=?, cpf=?, endereco=?";
+			String sql = "update clientes set name=?, cpf=?, address=?";
 			stmt = con.createConnectonDb().prepareStatement(sql);
-			stmt.setString(1, cliente.getNome());
+			stmt.setString(1, cliente.getName());
 			stmt.setString(2, cliente.getCpf());
-			stmt.setString(3, cliente.getEndereco());
+			stmt.setString(3, cliente.getAddress());
 			
 			stmt.execute();
 	 		stmt.close();

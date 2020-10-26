@@ -3,9 +3,9 @@ package br.com.bean;
 import lombok.Data;
 
 @Data
-public class Cliente {
-	private String nome;
+public class Client {
+	private String name;
 	private String cpf;
-	private String endereco;
+	private String address;
 
 }
